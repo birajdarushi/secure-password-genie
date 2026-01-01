@@ -1,21 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { Copy, Check, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { calculateStrength } from '@/lib/password-generator';
+import { calculateStrength } from '@/lib/password-generator.js';
 import { toast } from '@/hooks/use-toast';
-
-interface PasswordDisplayProps {
-  password: string;
-  onRegenerate: () => void;
-}
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
 
-export function PasswordDisplay({ password, onRegenerate }: PasswordDisplayProps) {
+export function PasswordDisplay({ password, onRegenerate }) {
   const [copied, setCopied] = useState(false);
   const [displayText, setDisplayText] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
-  const animationRef = useRef<number>();
+  const animationRef = useRef();
   const strength = calculateStrength(password);
 
   useEffect(() => {
