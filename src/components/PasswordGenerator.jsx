@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react';
 import { Shield, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { PasswordDisplay } from './PasswordDisplay';
-import { PasswordOptions } from './PasswordOptions';
-import { generatePassword, type PasswordOptions as Options } from '@/lib/password-generator';
+import { PasswordDisplay } from './PasswordDisplay.jsx';
+import { PasswordOptions } from './PasswordOptions.jsx';
+import { generatePassword } from '@/lib/password-generator.js';
 
 export function PasswordGenerator() {
   const [password, setPassword] = useState('');
-  const [options, setOptions] = useState<Options>({
+  const [options, setOptions] = useState({
     length: 16,
     uppercase: true,
     lowercase: true,

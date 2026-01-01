@@ -2,15 +2,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
-import type { PasswordOptions as Options } from '@/lib/password-generator';
 
-interface PasswordOptionsProps {
-  options: Options;
-  onChange: (options: Options) => void;
-}
-
-export function PasswordOptions({ options, onChange }: PasswordOptionsProps) {
-  const updateOption = <K extends keyof Options>(key: K, value: Options[K]) => {
+export function PasswordOptions({ options, onChange }) {
+  const updateOption = (key, value) => {
     onChange({ ...options, [key]: value });
   };
 
@@ -19,7 +13,7 @@ export function PasswordOptions({ options, onChange }: PasswordOptionsProps) {
     { id: 'lowercase', label: 'lowercase (a-z)', checked: options.lowercase },
     { id: 'numbers', label: 'Numbers (0-9)', checked: options.numbers },
     { id: 'special', label: 'Special (!@#$%^&*)', checked: options.special },
-  ] as const;
+  ];
 
   return (
     <div className="space-y-6">
@@ -64,12 +58,12 @@ export function PasswordOptions({ options, onChange }: PasswordOptionsProps) {
             <div 
               key={id} 
               className="flex items-center space-x-3 p-3 neo-brutal bg-card cursor-pointer hover:bg-muted/30 transition-colors"
-              onClick={() => updateOption(id as keyof Options, !checked)}
+              onClick={() => updateOption(id, !checked)}
             >
               <Checkbox
                 id={id}
                 checked={checked}
-                onCheckedChange={(checked) => updateOption(id as keyof Options, Boolean(checked))}
+                onCheckedChange={(checked) => updateOption(id, Boolean(checked))}
                 className="border-2 border-foreground data-[state=checked]:bg-primary data-[state=checked]:border-primary"
               />
               <Label
