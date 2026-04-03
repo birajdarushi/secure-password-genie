@@ -2,27 +2,33 @@ const UPPERCASE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const LOWERCASE_CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const NUMBER_CHARS = '0123456789';
 const SPECIAL_CHARS = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+const SIMILAR_CHARS = /[0OlI1]/g;
 
 export function generatePassword(options) {
-  const { length, uppercase, lowercase, numbers, special } = options;
+  const { length, uppercase, lowercase, numbers, special, excludeSimilar } = options;
   
+  const strip = (str) => excludeSimilar ? str.replace(SIMILAR_CHARS, '') : str;
+
   let chars = '';
   let password = '';
   
-  if (uppercase) chars += UPPERCASE_CHARS;
-  if (lowercase) chars += LOWERCASE_CHARS;
-  if (numbers) chars += NUMBER_CHARS;
+  if (uppercase) chars += strip(UPPERCASE_CHARS);
+  if (lowercase) chars += strip(LOWERCASE_CHARS);
+  if (numbers) chars += strip(NUMBER_CHARS);
   if (special) chars += SPECIAL_CHARS;
   
   if (chars === '') {
-    chars = LOWERCASE_CHARS;
+    chars = strip(LOWERCASE_CHARS) || LOWERCASE_CHARS;
   }
   
   const requiredChars = [];
-  if (uppercase) requiredChars.push(UPPERCASE_CHARS[Math.floor(Math.random() * UPPERCASE_CHARS.length)]);
-  if (lowercase) requiredChars.push(LOWERCASE_CHARS[Math.floor(Math.random() * LOWERCASE_CHARS.length)]);
-  if (numbers) requiredChars.push(NUMBER_CHARS[Math.floor(Math.random() * NUMBER_CHARS.length)]);
-  if (special) requiredChars.push(SPECIAL_CHARS[Math.floor(Math.random() * SPECIAL_CHARS.length)]);
+  const safeUpper = strip(UPPERCASE_CHARS) || UPPERCASE_CHARS;
+  const safeLower = strip(LOWERCASE_CHARS) || LOWERCASE_CHARS;
+  const safeNums  = strip(NUMBER_CHARS)    || NUMBER_CHARS;
+  if (uppercase) requiredChars.push(safeUpper[Math.floor(Math.random() * safeUpper.length)]);
+  if (lowercase) requiredChars.push(safeLower[Math.floor(Math.random() * safeLower.length)]);
+  if (numbers)   requiredChars.push(safeNums[Math.floor(Math.random() * safeNums.length)]);
+  if (special)   requiredChars.push(SPECIAL_CHARS[Math.floor(Math.random() * SPECIAL_CHARS.length)]);
   
   for (let i = 0; i < length - requiredChars.length; i++) {
     password += chars[Math.floor(Math.random() * chars.length)];
@@ -36,7 +42,18 @@ export function generatePassword(options) {
   return password;
 }
 
-export function calculateStrength(password) {
+export function calculateEntropy(password) {
+  if (!password) return 0;
+  const poolSize =
+    (/[A-Z]/.test(password) ? 26 : 0) +
+    (/[a-z]/.test(password) ? 26 : 0) +
+    (/[0-9]/.test(password) ? 10 : 0) +
+    (/[^A-Za-z0-9]/.test(password) ? 32 : 0);
+  if (poolSize === 0) return 0;
+  return Math.round(password.length * Math.log2(poolSize));
+}
+
+
   let score = 0;
   
   if (password.length >= 8) score += 1;

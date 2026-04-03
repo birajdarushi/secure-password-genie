@@ -1,9 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Shield, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PasswordDisplay } from './PasswordDisplay.jsx';
 import { PasswordOptions } from './PasswordOptions.jsx';
+import { PasswordHistory } from './PasswordHistory.jsx';
 import { generatePassword } from '@/lib/password-generator.js';
+import { usePasswordHistory } from '@/hooks/use-password-history.js';
 
 export function PasswordGenerator() {
   const [password, setPassword] = useState('');
@@ -13,12 +15,27 @@ export function PasswordGenerator() {
     lowercase: true,
     numbers: true,
     special: true,
+    excludeSimilar: false,
   });
+  const { history, addToHistory, clearHistory } = usePasswordHistory();
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const tag = e.target.tagName;
+      if (e.code === 'Space' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+        e.preventDefault();
+        handleGenerate();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleGenerate]);
 
   const handleGenerate = useCallback(() => {
     const newPassword = generatePassword(options);
     setPassword(newPassword);
-  }, [options]);
+    addToHistory(newPassword);
+  }, [options, addToHistory]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-background">
@@ -55,6 +72,16 @@ export function PasswordGenerator() {
             <Zap className="w-5 h-5 mr-2" />
             Generate Password
           </Button>
+
+          {history.length > 0 && (
+            <div className="border-t-2 border-foreground pt-4">
+              <PasswordHistory
+                history={history}
+                onSelect={setPassword}
+                onClear={clearHistory}
+              />
+            </div>
+          )}
         </div>
 
         <p className="text-center text-xs text-muted-foreground font-mono uppercase tracking-wide">

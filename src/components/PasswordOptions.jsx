@@ -13,6 +13,7 @@ export function PasswordOptions({ options, onChange }) {
     { id: 'lowercase', label: 'lowercase (a-z)', checked: options.lowercase },
     { id: 'numbers', label: 'Numbers (0-9)', checked: options.numbers },
     { id: 'special', label: 'Special (!@#$%^&*)', checked: options.special },
+    { id: 'excludeSimilar', label: 'Exclude similar (0, O, l, 1)', checked: options.excludeSimilar },
   ];
 
   return (

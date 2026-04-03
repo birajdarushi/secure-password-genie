@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Copy, Check, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { calculateStrength } from '@/lib/password-generator.js';
+import { calculateStrength, calculateEntropy } from '@/lib/password-generator.js';
 import { toast } from '@/hooks/use-toast';
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
@@ -12,6 +12,7 @@ export function PasswordDisplay({ password, onRegenerate }) {
   const [isAnimating, setIsAnimating] = useState(false);
   const animationRef = useRef();
   const strength = calculateStrength(password);
+  const entropy = calculateEntropy(password);
 
   useEffect(() => {
     if (!password) {
@@ -124,6 +125,9 @@ export function PasswordDisplay({ password, onRegenerate }) {
               style={{ width: `${(strength.score / 7) * 100}%` }}
             />
           </div>
+          <p className="text-xs font-mono text-muted-foreground text-right">
+            ~{entropy} bits of entropy
+          </p>
         </div>
       )}
     </div>
