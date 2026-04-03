@@ -42,7 +42,18 @@ export function generatePassword(options) {
   return password;
 }
 
-export function calculateStrength(password) {
+export function calculateEntropy(password) {
+  if (!password) return 0;
+  const poolSize =
+    (/[A-Z]/.test(password) ? 26 : 0) +
+    (/[a-z]/.test(password) ? 26 : 0) +
+    (/[0-9]/.test(password) ? 10 : 0) +
+    (/[^A-Za-z0-9]/.test(password) ? 32 : 0);
+  if (poolSize === 0) return 0;
+  return Math.round(password.length * Math.log2(poolSize));
+}
+
+
   let score = 0;
   
   if (password.length >= 8) score += 1;
