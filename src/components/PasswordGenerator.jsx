@@ -13,6 +13,7 @@ export function PasswordGenerator() {
     lowercase: true,
     numbers: true,
     special: true,
+    excludeSimilar: false,
   });
 
   const handleGenerate = useCallback(() => {
