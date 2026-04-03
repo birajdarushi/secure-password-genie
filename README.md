@@ -1,59 +1,48 @@
+# Secure Password Genie 🔐
 
+A fast, secure, and fully client-side password generator built with React and Vite. All passwords are generated locally in your browser — nothing is ever sent to a server.
 
-**Use your preferred IDE**
+## Features
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Customizable password length (8–64 characters)
+- Toggle uppercase, lowercase, numbers, and special characters
+- Exclude visually similar characters (e.g. `0`, `O`, `l`, `1`)
+- Password strength indicator
+- Password history — quickly revisit recently generated passwords
+- Animated scramble effect on generation
+- One-click clipboard copy
+- Keyboard shortcut: press **Space** on the main page to generate a new password
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Getting Started
 
-Follow these steps:
+**Requirements:** Node.js ≥ 18 and npm installed — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>>
+# Clone the repository
+git clone https://github.com/birajdarushi/secure-password-genie.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate into the project directory
+cd secure-password-genie
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Tech Stack
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- [Vite](https://vitejs.dev/) — lightning-fast build tool
+- [React](https://react.dev/) — UI library
+- [Tailwind CSS](https://tailwindcss.com/) — utility-first styling
+- [shadcn/ui](https://ui.shadcn.com/) — accessible component primitives
+- [TypeScript](https://www.typescriptlang.org/) — type-safe development
 
-**Use GitHub Codespaces**
+## Contributing
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request.
 
-## What technologies are used for this project?
+## License
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This project is licensed under the [MIT License](LICENSE).
