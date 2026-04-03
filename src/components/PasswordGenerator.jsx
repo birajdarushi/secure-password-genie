@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Shield, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PasswordDisplay } from './PasswordDisplay.jsx';
@@ -18,6 +18,18 @@ export function PasswordGenerator() {
     excludeSimilar: false,
   });
   const { history, addToHistory, clearHistory } = usePasswordHistory();
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const tag = e.target.tagName;
+      if (e.code === 'Space' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+        e.preventDefault();
+        handleGenerate();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleGenerate]);
 
   const handleGenerate = useCallback(() => {
     const newPassword = generatePassword(options);
